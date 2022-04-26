@@ -182,7 +182,7 @@ function SelectedTokens(loading) {
                           {queryExchange[0].exchange}
                         </h2>
                         <h2>
-                          {queryExchange[0].price} Baht/
+                          {queryExchange[0].price} THB/
                           {queryExchange[0].symbol}
                         </h2>
                       </div>
@@ -205,7 +205,7 @@ function SelectedTokens(loading) {
                           {queryExchange[queryExchange.length - 1].exchange}
                         </h2>
                         <h2>
-                          {queryExchange[queryExchange.length - 1].price} Baht/
+                          {queryExchange[queryExchange.length - 1].price} THB/
                           {queryExchange[queryExchange.length - 1].symbol}
                         </h2>
                       </div>
@@ -218,7 +218,7 @@ function SelectedTokens(loading) {
                     <thead>
                       <tr>
                         <th></th>
-                        <th>Name</th>
+                        <th>Coin</th>
                         <th>Exchange</th>
                         <th>Price</th>
                       </tr>
@@ -229,9 +229,17 @@ function SelectedTokens(loading) {
                           <tr>
                             <th>{index + 1}</th>
                             <td>{exchange.symbol}</td>
-                            <td>{exchange.exchange}</td>
+                            <td className="flex flex-row items-center -translate-x-2">
+                              {" "}
+                              <img
+                                src={`./exchanges/${exchange.exchange}.svg`}
+                                className="w-4 h-4 translate-x-2"
+                                alt="logo"
+                              />
+                              {exchange.exchange}
+                            </td>
                             <td>
-                              {exchange.price} Baht/{exchange.symbol}
+                              {exchange.price} THB/{exchange.symbol}
                             </td>
                           </tr>
                         );
