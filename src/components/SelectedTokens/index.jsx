@@ -43,23 +43,7 @@ function SelectedTokens(loading) {
         return 0;
       })
     );
-  }, [selectToken]);
-
-  // useEffect(() => {
-  //   if (queryExchange) {
-  //     setQueryExchange(
-  //       queryExchange.sort((a, b) => {
-  //         if (a.price < b.price) {
-  //           return -1;
-  //         } else if (a.price < b.price) {
-  //           return 1;
-  //         }
-  //         return 0;
-  //       })
-  //     );
-  //     console.log(queryExchange);
-  //   }
-  // }, [queryExchange]);
+  }, [selectToken, exchanges]);
 
   return (
     <>
