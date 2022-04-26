@@ -9,7 +9,7 @@ import {
 export const useResponse = () => {
   const dispatch = useDispatch();
 
-  const { tokens, exchanges } = useSelector((state) => state.responses);
+  const { tokens, exchanges, lastPricesFetch } = useSelector((state) => state.responses);
 
   const handleAddExchange = useCallback(
     (data) => {
@@ -28,6 +28,7 @@ export const useResponse = () => {
   return {
     tokens,
     exchanges,
+    lastPricesFetch,
     reducer: {
       handleAddExchange,
       handleAddTokens,
