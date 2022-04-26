@@ -4,7 +4,6 @@ import { themeChange } from "theme-change";
 import SelectedTokens from "./components/SelectedTokens";
 
 import ThemeSwitch from "./components/ThemeSwitch";
-import { changeSymbol } from "./config";
 import exchanges from "./mock/exchange.json";
 import { useResponse } from "./state/responses/hook";
 
@@ -41,13 +40,6 @@ function App() {
     const exchangeTemp = exchanges.reduce((prev, curr) => {
       prev.push(
         ...curr.data.map((coin) => {
-          if (changeSymbol[coin.symbol]) {
-            return {
-              ...coin,
-              symbol: changeSymbol[coin.symbol],
-              exchange: curr.exchange,
-            };
-          }
           return { ...coin, exchange: curr.exchange };
         })
       );
