@@ -43,7 +43,6 @@ function SelectedTokens(loading) {
         return 0;
       })
     );
-    console.log(111);
   }, [selectToken, exchanges]);
 
   return (
