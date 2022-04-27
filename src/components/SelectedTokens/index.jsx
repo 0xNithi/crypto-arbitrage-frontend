@@ -7,7 +7,8 @@ function SelectedTokens(loading) {
 
   const [searchKeyword, setSearchKeyword] = useState("");
   const [queryTokenList, setQueryTokenList] = useState(tokens);
-  const [queryExchange, setQueryExchange] = useState();
+  const [profit, setProfit] = useState();
+  const [queryExchange, setQueryExchange] = useState([]);
   const [selectToken, setSelectToken] = useState();
 
   useEffect(() => {
@@ -25,7 +26,7 @@ function SelectedTokens(loading) {
   }, [searchKeyword, tokens]);
 
   useEffect(() => {
-    let temp = [];
+    const temp = [];
     if (selectToken) {
       for (let i = 0; i < exchanges.length; i += 1) {
         if (exchanges[i].symbol === selectToken.symbol) {
@@ -44,6 +45,17 @@ function SelectedTokens(loading) {
       })
     );
   }, [selectToken, exchanges]);
+
+  useEffect(() => {
+    if (queryExchange.length !== 0) {
+      setProfit(
+        ((queryExchange[queryExchange.length - 1].price -
+          queryExchange[0].price) /
+          queryExchange[0].price) *
+          100
+      );
+    }
+  }, [queryExchange]);
 
   return (
     <>
@@ -151,7 +163,7 @@ function SelectedTokens(loading) {
               </label>
 
               <div className="w-full space-y-4">
-                <div className="flex flex-row w-full space-x-4">
+                <div className="flex flex-row w-full space-x-2">
                   {queryExchange[0] && (
                     <div className="shadow-xl card w-96 h-36 bg-base-100 image-full">
                       <div className="w-full h-full">
@@ -172,6 +184,23 @@ function SelectedTokens(loading) {
                       </div>
                     </div>
                   )}
+                  <div className="flex items-center">
+                    <div className="flex flex-col items-center justify-center space-y-1 ">
+                      {" "}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-5 h-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                  </div>
                   {queryExchange[queryExchange.length - 1] && (
                     <div className="shadow-xl card w-96 h-36 bg-base-100 image-full">
                       <div className="w-full h-full">
@@ -184,14 +213,19 @@ function SelectedTokens(loading) {
                         />
                       </div>
 
-                      <div className="card-body">
-                        <h2 className="card-title">
-                          {queryExchange[queryExchange.length - 1].exchange}
-                        </h2>
-                        <h2>
-                          {queryExchange[queryExchange.length - 1].price} THB/
-                          {queryExchange[queryExchange.length - 1].symbol}
-                        </h2>
+                      <div className="flex flex-row justify-between card-body">
+                        <div className="space-y-2">
+                          <h2 className="card-title">
+                            {queryExchange[queryExchange.length - 1].exchange}
+                          </h2>
+                          <h2>
+                            {queryExchange[queryExchange.length - 1].price} THB/
+                            {queryExchange[queryExchange.length - 1].symbol}
+                          </h2>
+                        </div>
+                        <div className="w-24 text-right text-green-500">
+                          + {profit.toFixed(2)} %
+                        </div>
                       </div>
                     </div>
                   )}
@@ -202,8 +236,8 @@ function SelectedTokens(loading) {
                     <thead>
                       <tr>
                         <th></th>
-                        <th>Coin</th>
                         <th>Exchange</th>
+                        <th>Coin</th>
                         <th>Price</th>
                       </tr>
                     </thead>
@@ -212,15 +246,24 @@ function SelectedTokens(loading) {
                         return (
                           <tr>
                             <th>{index + 1}</th>
-                            <td>{exchange.symbol}</td>
-                            <td className="flex flex-row items-center -translate-x-2">
+                            <td className="flex flex-row items-center ">
                               {" "}
                               <img
                                 src={`./exchanges/${exchange.exchange}.svg`}
-                                className="w-4 h-4 translate-x-2"
+                                className="w-4 h-4 mr-2"
                                 alt="logo"
                               />
                               {exchange.exchange}
+                            </td>
+                            <td>
+                              <div className="flex flex-row items-center">
+                                <img
+                                  src={selectToken.logo}
+                                  className="w-4 h-4 mr-2"
+                                  alt="logo"
+                                />
+                                {exchange.symbol}
+                              </div>
                             </td>
                             <td>
                               {exchange.price} THB/{exchange.symbol}
