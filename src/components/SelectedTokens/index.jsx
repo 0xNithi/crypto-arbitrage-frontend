@@ -13,7 +13,7 @@ function SelectedTokens(loading) {
 
   useEffect(() => {
     if (tokens) {
-      setSelectToken(tokens[14]);
+      setSelectToken(tokens[15]);
     }
   }, [tokens]);
 
@@ -59,7 +59,7 @@ function SelectedTokens(loading) {
 
   return (
     <>
-      {loading["loading"] ? (
+      {loading["loading"] && !exchanges ? (
         <div className="flex flex-col items-center justify-center w-full h-full py-2 space-y-3 translate-y-10 text-primary-400">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -144,7 +144,8 @@ function SelectedTokens(loading) {
                     {queryTokenList &&
                       queryTokenList.map((item, index) => {
                         return (
-                          <button
+                          <label
+                            htmlFor="select-token-modal"
                             className="flex justify-between px-5 bg-transparent border-0 rounded-none btn"
                             key={index}
                             onClick={() => setSelectToken(item)}
@@ -155,7 +156,7 @@ function SelectedTokens(loading) {
                               alt="img"
                             />
                             {item.symbol}
-                          </button>
+                          </label>
                         );
                       })}
                   </div>
@@ -223,9 +224,11 @@ function SelectedTokens(loading) {
                             {queryExchange[queryExchange.length - 1].symbol}
                           </h2>
                         </div>
-                        <div className="w-24 text-right text-green-500">
-                          + {profit.toFixed(2)} %
-                        </div>
+                        {profit && (
+                          <div className="w-24 text-right text-green-500">
+                            + {profit.toFixed(2)} %
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}

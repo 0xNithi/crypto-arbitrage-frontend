@@ -12,7 +12,8 @@ export const responseSlice = createSlice({
   reducers: {
     addExchanges: (state, { payload: { exchanges } }) => {
       state.exchanges = exchanges;
-      state.lastPricesFetch = `${new Date()}`;
+      const date = new Date();
+      state.lastPricesFetch = `${date}`;
     },
     addTokens: (state, { payload: { tokens } }) => {
       state.tokens = tokens;
