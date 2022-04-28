@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { themeChange } from "theme-change";
 import axios from "axios";
+import ReactLoading from "react-loading";
 
 import SelectedTokens from "./components/SelectedTokens";
 import ThemeSwitch from "./components/ThemeSwitch";
@@ -12,31 +13,21 @@ import config from "./config.json";
 
 function App() {
   const {
+    exchanges,
     lastPricesFetch,
     reducer: { handleAddExchange, handleAddTokens },
   } = useResponse();
   const [loading, setLoading] = useState(false);
-  const [countDown, setCountDown] = useState(100);
+  const [pending, setPending] = useState(false);
+  const [countDown, setCountDown] = useState(10);
+  const [temp, setTemp] = useState();
+  const [state, setState] = useState();
 
   const fetchLogoCoin = async () => {
     try {
       setLoading(true);
-      // const response = await fetch(
-      // 	`${config.BACKEND_ENDPOINT_URL}/support_currencies
-      //   `,
-      // 	{
-      // 		method: 'GET',
-      // 		headers: {
-      // 			'Content-Type': 'application/json',
-      // 		},
-      // 	}
-      // );
-      // const res = await response.json();
-      // handleAddTokens(res.data);
       handleAddTokens(tokens);
     } catch (error) {
-      alert("ERR:Cannot Fetch Logo!");
-      // fetchLogoCoin();
       console.log(error);
     }
     setLoading(false);
@@ -44,8 +35,10 @@ function App() {
 
   const fetchExchangesPrices = async () => {
     setLoading(true);
+
     try {
       setLoading(true);
+      setPending(true);
       const response = await axios.get(
         `${config.BACKEND_ENDPOINT_URL}/arbitrage`
       );
@@ -58,22 +51,35 @@ function App() {
         );
         return prev;
       }, []);
-      handleAddExchange(exchangeTemp);
+      if (exchanges && exchanges.length !== 0) {
+        setTemp(exchangeTemp);
+        setState(true);
+      } else {
+        handleAddExchange(exchangeTemp);
+        setTemp(exchangeTemp);
+        setState(true);
+      }
+      setPending(false);
     } catch (error) {
-      alert("ERR:Cannot Fetch Price!");
       console.log(error);
     }
+
     setLoading(false);
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      setCountDown(countDown - 1);
-      if (countDown === 0) {
-        setCountDown(60);
-        fetchExchangesPrices();
-      }
-    }, 1000);
+    if (state === true) {
+      setTimeout(() => {
+        setCountDown(countDown - 1);
+        if (countDown === 0) {
+          handleAddExchange(temp);
+          fetchExchangesPrices();
+          setState(false);
+        }
+      }, 1000);
+    } else {
+      setCountDown(10);
+    }
   });
 
   useEffect(() => {
@@ -90,15 +96,29 @@ function App() {
           <div className="text-2xl font-medium">Crypto Arbitrage</div>
           <ThemeSwitch />
         </div>
-        <div
-          className="underline hover:cursor-pointer"
-          onClick={fetchExchangesPrices}
-        >
-          Last update: {new Date(lastPricesFetch).toString()} [Click to
-          re-scraping prices]
-        </div>
-        <div>Refetch in {countDown} secs</div>
-        <SelectedTokens loading={loading} />
+        {exchanges.length !== 0 && (
+          <>
+            <div
+              className="text-xs underline hover:cursor-pointer"
+              onClick={fetchExchangesPrices}
+            >
+              Last update: {lastPricesFetch} [Click to re-scraping prices]
+            </div>
+            {pending ? (
+              <div className="flex flex-row items-center space-x-2 text-xs">
+                <p>Pending</p>
+                <div className="w-20">
+                  <ReactLoading type={"bubbles"} height={"20%"} width={"20%"} />
+                </div>
+              </div>
+            ) : (
+              <div className="text-xs">
+                Refetch in {countDown !== 0 ? countDown : "..."} secs
+              </div>
+            )}
+          </>
+        )}
+        <SelectedTokens loading={loading} setCountDown={() => setCountDown()} />
       </div>
     </>
   );

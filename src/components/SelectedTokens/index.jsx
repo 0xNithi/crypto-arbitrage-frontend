@@ -13,7 +13,7 @@ function SelectedTokens(loading) {
 
   useEffect(() => {
     if (tokens) {
-      setSelectToken(tokens[15]);
+      setSelectToken(tokens[17]);
     }
   }, [tokens]);
 
@@ -27,7 +27,7 @@ function SelectedTokens(loading) {
 
   useEffect(() => {
     const temp = [];
-    if (selectToken) {
+    if (selectToken && exchanges) {
       for (let i = 0; i < exchanges.length; i += 1) {
         if (exchanges[i].symbol === selectToken.symbol) {
           temp.push(exchanges[i]);
@@ -44,7 +44,7 @@ function SelectedTokens(loading) {
         return 0;
       })
     );
-  }, [selectToken, exchanges]);
+  }, [selectToken, exchanges, queryExchange]);
 
   useEffect(() => {
     if (queryExchange.length !== 0) {
@@ -59,7 +59,7 @@ function SelectedTokens(loading) {
 
   return (
     <>
-      {loading["loading"] && !exchanges ? (
+      {loading["loading"] && exchanges && exchanges.length === 0 ? (
         <div className="flex flex-col items-center justify-center w-full h-full py-2 space-y-3 translate-y-10 text-primary-400">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -238,7 +238,40 @@ function SelectedTokens(loading) {
                   <table className="table w-full table-compact table-zebra">
                     <thead>
                       <tr>
-                        <th></th>
+                        <th>
+                          {/* <button
+                            onClick={() => setStateCondition(!stateCondition)}
+                            className="flex items-center w-full h-full"
+                          >
+                            {stateCondition ? (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-4 h-4"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M15.707 4.293a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 011.414-1.414L10 8.586l4.293-4.293a1 1 0 011.414 0zm0 6a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 14.586l4.293-4.293a1 1 0 011.414 0z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-4 h-4"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M4.293 15.707a1 1 0 010-1.414l5-5a1 1 0 011.414 0l5 5a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414 0zm0-6a1 1 0 010-1.414l5-5a1 1 0 011.414 0l5 5a1 1 0 01-1.414 1.414L10 5.414 5.707 9.707a1 1 0 01-1.414 0z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            )}
+                          </button> */}
+                        </th>
                         <th>Exchange</th>
                         <th>Coin</th>
                         <th>Price</th>
@@ -247,7 +280,7 @@ function SelectedTokens(loading) {
                     <tbody>
                       {queryExchange.map((exchange, index) => {
                         return (
-                          <tr>
+                          <tr key={index}>
                             <th>{index + 1}</th>
                             <td className="flex flex-row items-center ">
                               {" "}
@@ -262,7 +295,7 @@ function SelectedTokens(loading) {
                               <div className="flex flex-row items-center">
                                 <img
                                   src={selectToken.logo}
-                                  className="w-4 h-4 mr-2"
+                                  className="w-4 h-4 mr-2 rounded-full"
                                   alt="logo"
                                 />
                                 {exchange.symbol}
