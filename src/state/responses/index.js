@@ -12,7 +12,7 @@ export const responseSlice = createSlice({
   reducers: {
     addExchanges: (state, { payload: { exchanges } }) => {
       state.exchanges = exchanges;
-      state.lastPricesFetch = `${new Date()}`;
+      state.lastPricesFetch = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()} ${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()} `;
     },
     addTokens: (state, { payload: { tokens } }) => {
       state.tokens = tokens;
