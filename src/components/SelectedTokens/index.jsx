@@ -276,7 +276,7 @@ function SelectedTokens(loading) {
                     <div className="shadow-xl card w-96 h-36 bg-base-100 image-full">
                       <div className="w-full h-full">
                         <img
-                          src={`%PUBLIC_URL%/exchanges/${queryExchange[0].exchange}.svg`}
+                          src={`exchanges/${queryExchange[0].exchange}.svg`}
                           className="translate-x-28 w-36 h-36"
                           alt="logo"
                         />
@@ -313,7 +313,7 @@ function SelectedTokens(loading) {
                     <div className="space-y-2 shadow-xl card w-96 h-36 bg-base-100 image-full">
                       <div className="w-full h-full">
                         <img
-                          src={`%PUBLIC_URL%/exchanges/${
+                          src={`exchanges/${
                             queryExchange[queryExchange.length - 1].exchange
                           }.svg`}
                           className="translate-x-28 w-36 h-36"
@@ -359,7 +359,7 @@ function SelectedTokens(loading) {
                             <td className="flex flex-row items-center ">
                               {" "}
                               <img
-                                src={`%PUBLIC_URL%/exchanges/${exchange.exchange}.svg`}
+                                src={`exchanges/${exchange.exchange}.svg`}
                                 className="w-4 h-4 mr-2"
                                 alt="logo"
                               />
