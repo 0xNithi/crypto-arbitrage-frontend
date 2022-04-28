@@ -266,7 +266,11 @@ function SelectedTokens(loading) {
                 </div>
               </label>
 
-              <div className="w-full space-y-4">
+              <div className="w-full space-y-2">
+                <div className="flex flex-row items-center justify-between px-2">
+                  <p>Lowest</p>
+                  <p>Highest</p>
+                </div>
                 <div className="flex flex-row w-full space-x-2">
                   {queryExchange[0] && (
                     <div className="shadow-xl card w-96 h-36 bg-base-100 image-full">
@@ -306,7 +310,7 @@ function SelectedTokens(loading) {
                     </div>
                   </div>
                   {queryExchange[queryExchange.length - 1] && (
-                    <div className="shadow-xl card w-96 h-36 bg-base-100 image-full">
+                    <div className="space-y-2 shadow-xl card w-96 h-36 bg-base-100 image-full">
                       <div className="w-full h-full">
                         <img
                           src={`./exchanges/${
