@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ReactLoading from "react-loading";
 
 import { useResponse } from "../../state/responses/hook";
 
@@ -60,27 +61,129 @@ function SelectedTokens(loading) {
   return (
     <>
       {loading["loading"] && exchanges && exchanges.length === 0 ? (
-        <div className="flex flex-col items-center justify-center w-full h-full py-2 space-y-3 translate-y-10 text-primary-400">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            className="animate-spin w-9 h-9"
+        <div className="flex flex-col items-center justify-center w-full p-4 space-y-4">
+          <label
+            htmlFor="select-token-modal"
+            className="items-center justify-between w-full max-w-xl btn modal-button"
           >
-            <circle
-              className="opacity-25"
-              cx={12}
-              cy={12}
-              r={10}
+            <div className="flex flex-row items-center w-20 h-10 space-x-2">
+              <ReactLoading type={"bubbles"} height={"40%"} width={"40%"} />
+            </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-6 h-6"
+              fill="none"
+              viewBox="0 0 24 24"
               stroke="currentColor"
-              strokeWidth={4}
-            />
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            />
-          </svg>
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </label>
+
+          <input
+            type="checkbox"
+            id="select-token-modal"
+            className="modal-toggle"
+          />
+          <label htmlFor="select-token-modal" className="bg-opacity-95 modal">
+            <div className="relative w-full space-y-2 overflow-hidden modal-box h-3/4">
+              <div className="flex flex-row items-center justify-between">
+                <h3 className="text-lg font-bold">Select a token</h3>
+                <label htmlFor="select-token-modal" className="btn btn-sm">
+                  ✕
+                </label>
+              </div>
+              <input
+                type="text"
+                placeholder="Search name of token"
+                className="w-full input input-bordered"
+              />
+              <div className="divider"></div>
+              <div className="flex flex-col w-full h-full overflow-y-auto">
+                <label className="flex justify-between px-5 bg-transparent border-0 rounded-none btn">
+                  <ReactLoading type={"bubbles"} height={"20%"} width={"20%"} />
+                </label>
+              </div>
+            </div>
+          </label>
+
+          <div className="w-full space-y-4">
+            <div className="flex flex-row w-full space-x-2">
+              <div className="shadow-xl card w-96 h-36 bg-base-100 image-full ">
+                <div className="flex items-center justify-center w-full h-full">
+                  <ReactLoading type={"bubbles"} height={"20%"} width={"20%"} />
+                </div>
+              </div>
+
+              <div className="flex items-center">
+                <div className="flex flex-col items-center justify-center space-y-1 ">
+                  {" "}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-5 h-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              <div className="shadow-xl card w-96 h-36 bg-base-100 image-full">
+                <div className="flex items-center justify-center w-full h-full">
+                  <ReactLoading type={"bubbles"} height={"20%"} width={"20%"} />
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full overflow-x-auto">
+              <table className="table w-full table-compact table-zebra">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Exchange</th>
+                    <th>Coin</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th></th>
+                    <td>
+                      <ReactLoading
+                        type={"bubbles"}
+                        height={"20%"}
+                        width={"20%"}
+                      />
+                    </td>
+                    <td>
+                      <ReactLoading
+                        type={"bubbles"}
+                        height={"20%"}
+                        width={"20%"}
+                      />
+                    </td>
+                    <td>
+                      <ReactLoading
+                        type={"bubbles"}
+                        height={"20%"}
+                        width={"20%"}
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       ) : (
         <>
@@ -238,40 +341,7 @@ function SelectedTokens(loading) {
                   <table className="table w-full table-compact table-zebra">
                     <thead>
                       <tr>
-                        <th>
-                          {/* <button
-                            onClick={() => setStateCondition(!stateCondition)}
-                            className="flex items-center w-full h-full"
-                          >
-                            {stateCondition ? (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-4 h-4"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M15.707 4.293a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 011.414-1.414L10 8.586l4.293-4.293a1 1 0 011.414 0zm0 6a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 14.586l4.293-4.293a1 1 0 011.414 0z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                            ) : (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-4 h-4"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M4.293 15.707a1 1 0 010-1.414l5-5a1 1 0 011.414 0l5 5a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414 0zm0-6a1 1 0 010-1.414l5-5a1 1 0 011.414 0l5 5a1 1 0 01-1.414 1.414L10 5.414 5.707 9.707a1 1 0 01-1.414 0z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                            )}
-                          </button> */}
-                        </th>
+                        <th></th>
                         <th>Exchange</th>
                         <th>Coin</th>
                         <th>Price</th>
