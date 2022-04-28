@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { themeChange } from "theme-change";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import ReactLoading from "react-loading";
 
 import SelectedTokens from "./components/SelectedTokens";
@@ -19,7 +19,7 @@ function App() {
   } = useResponse();
   const [loading, setLoading] = useState(false);
   const [pending, setPending] = useState(false);
-  const [countDown, setCountDown] = useState(10);
+  const [countDown, setCountDown] = useState(100);
   const [temp, setTemp] = useState();
   const [state, setState] = useState();
 
@@ -61,7 +61,8 @@ function App() {
       }
       setPending(false);
     } catch (error) {
-      console.log(error);
+      // alert("");
+      fetchExchangesPrices();
     }
 
     setLoading(false);
@@ -78,7 +79,7 @@ function App() {
         }
       }, 1000);
     } else {
-      setCountDown(10);
+      setCountDown(100);
     }
   });
 
