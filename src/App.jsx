@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { themeChange } from "theme-change";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import ReactLoading from "react-loading";
 
 import SelectedTokens from "./components/SelectedTokens";
