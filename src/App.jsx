@@ -4,9 +4,9 @@ import { themeChange } from "theme-change";
 import axios from "axios";
 import ReactLoading from "react-loading";
 
+import tokens from "./mock/tokens.json";
 import SelectedTokens from "./components/SelectedTokens";
 import ThemeSwitch from "./components/ThemeSwitch";
-import tokens from "./mock/tokens.json";
 import { useResponse } from "./state/responses/hook";
 
 import config from "./config.json";
@@ -22,6 +22,8 @@ function App() {
   const [countDown, setCountDown] = useState(100);
   const [temp, setTemp] = useState();
   const [state, setState] = useState();
+  const filterTokens = new Set();
+  const [token, setToken] = useState(tokens);
 
   const fetchLogoCoin = async () => {
     try {
@@ -59,6 +61,7 @@ function App() {
         setTemp(exchangeTemp);
         setState(true);
       }
+      filterToken(exchanges);
       setPending(false);
     } catch (error) {
       // alert("");
@@ -66,6 +69,25 @@ function App() {
     }
 
     setLoading(false);
+  };
+
+  const filterToken = (data) => {
+    if (data) {
+      for (let i = 0; i < exchanges.length; i += 1) {
+        filterTokens.add(exchanges[i].symbol);
+      }
+    }
+    let setToArr = Array.from(filterTokens);
+    let dataTokens = [];
+    for (let i = 0; i < tokens.length; i++) {
+      for (let j = 0; j < setToArr.length; j++) {
+        if (setToArr[j] === tokens[i]["symbol"]) {
+          dataTokens.push(tokens[i]);
+        }
+      }
+    }
+
+    setToken(dataTokens);
   };
 
   useEffect(() => {
@@ -88,6 +110,7 @@ function App() {
 
     fetchLogoCoin();
     fetchExchangesPrices();
+    filterToken(exchanges);
   }, []);
 
   return (
@@ -119,7 +142,7 @@ function App() {
             )}
           </>
         )}
-        <SelectedTokens loading={loading} setCountDown={() => setCountDown()} />
+        <SelectedTokens filterTokens={token} loading={loading} />
       </div>
     </>
   );

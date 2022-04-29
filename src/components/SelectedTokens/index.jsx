@@ -3,28 +3,28 @@ import ReactLoading from "react-loading";
 
 import { useResponse } from "../../state/responses/hook";
 
-function SelectedTokens(loading) {
-  const { tokens, exchanges } = useResponse();
+function SelectedTokens({ filterTokens, loading }) {
+  const { exchanges } = useResponse();
 
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [queryTokenList, setQueryTokenList] = useState(tokens);
+  const [queryTokenList, setQueryTokenList] = useState(filterTokens);
   const [profit, setProfit] = useState();
   const [queryExchange, setQueryExchange] = useState([]);
   const [selectToken, setSelectToken] = useState();
 
   useEffect(() => {
-    if (tokens) {
-      setSelectToken(tokens[17]);
+    if (filterTokens) {
+      setSelectToken(filterTokens[0]);
     }
-  }, [tokens]);
+  }, [filterTokens]);
 
   useEffect(() => {
     setQueryTokenList(
-      tokens.filter((token) => {
+      filterTokens.filter((token) => {
         return token.symbol.toLowerCase().includes(searchKeyword.toLowerCase());
       })
     );
-  }, [searchKeyword, tokens]);
+  }, [searchKeyword, filterTokens]);
 
   useEffect(() => {
     const temp = [];
