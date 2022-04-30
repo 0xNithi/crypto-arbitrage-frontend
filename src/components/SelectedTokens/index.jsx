@@ -58,9 +58,11 @@ function SelectedTokens({ filterTokens, loading }) {
     }
   }, [queryExchange]);
 
+  console.log();
+
   return (
     <>
-      {loading["loading"] && exchanges && exchanges.length === 0 ? (
+      {loading && exchanges && exchanges.length === 0 ? (
         <div className="flex flex-col items-center justify-center w-full p-4 space-y-4">
           <label
             htmlFor="select-token-modal"
