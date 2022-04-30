@@ -23,7 +23,7 @@ function App() {
   const [temp, setTemp] = useState();
   const [state, setState] = useState();
   const filterTokens = new Set();
-  const [token, setToken] = useState(tokens);
+  const [token, setToken] = useState([]);
 
   const fetchLogoCoin = async () => {
     try {
@@ -61,7 +61,8 @@ function App() {
         setTemp(exchangeTemp);
         setState(true);
       }
-      filterToken(exchanges);
+      filterToken(exchangeTemp);
+
       setPending(false);
     } catch (error) {
       // alert("");
@@ -73,8 +74,8 @@ function App() {
 
   const filterToken = (data) => {
     if (data) {
-      for (let i = 0; i < exchanges.length; i += 1) {
-        filterTokens.add(exchanges[i].symbol);
+      for (let i = 0; i < data.length; i += 1) {
+        filterTokens.add(data[i].symbol);
       }
     }
     let setToArr = Array.from(filterTokens);
@@ -112,6 +113,10 @@ function App() {
     fetchExchangesPrices();
     filterToken(exchanges);
   }, []);
+
+  useEffect(() => {
+    console.log(token);
+  }, [token]);
 
   return (
     <>
